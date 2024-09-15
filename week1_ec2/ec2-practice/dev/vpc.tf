@@ -12,4 +12,9 @@ module "vpc" {
 
   # subnet cidr 설정
   public_subnets = var.public_cidr
+
+  map_public_ip_on_launch = true
+
+  # 자동으로 인터넷 게이트웨이를 생성하지 않도록 설정
+  create_igw = false
 }

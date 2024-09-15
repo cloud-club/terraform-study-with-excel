@@ -1,9 +1,11 @@
 resource "aws_instance" "ec2_instance" {
-  ami = "ami-0b48860f51bc4313e"
+  ami = "ami-05d2438ca66594916"
   instance_type = "${var.ec2_instance_spec}"
 
   subnet_id = module.vpc.public_subnets[0]
-  security_groups = [aws_security_group.terraform-ec2-enable-http.name]
+  vpc_security_group_ids = [aws_security_group.terraform-ec2-sg.id]
+
+  associate_public_ip_address = true
 
   # 키 페어는 사용하지 않으므로, 설정 안함
   # key_name = aws_key_pair.example_key_pair.key_name
