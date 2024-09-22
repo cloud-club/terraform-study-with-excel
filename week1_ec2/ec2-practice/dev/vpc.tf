@@ -1,21 +1,20 @@
-module "vpc" {
-  source = "terraform-aws-modules/vpc/aws"
-  version = "5.0.0"
+# 보안 그룹 생성 (HTTP 트래픽 허용)
+resource "aws_security_group" "allow_http" {
+  name        = "allow_http"
+  description = "Allow HTTP traffic"
 
-  name = "${var.project_name}-${var.target_label}-vpc"
+  ingress {
+    description = "HTTP from anywhere"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # 모든 IP에서의 HTTP 요청 허용
+  }
 
-  # vpc cidr 설정
-  cidr = var.vpc_cidr
-
-  # VPC 가용영역 설정
-  azs = var.azs
-
-  # subnet cidr 설정
-  public_subnets = var.public_cidr
-
-  # public ip를 매핑할 것인지 여부
-  map_public_ip_on_launch = true
-
-  # 자동으로 인터넷 게이트웨이를 생성하도록 설정
-  create_igw = true
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"] # 모든 아웃바운드 트래픽 허용
+  }
 }

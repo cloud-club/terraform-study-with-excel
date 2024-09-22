@@ -1,4 +1,3 @@
 provider "aws" {
-  profile = "8471919-terraform"
-  region = "ap-northeast-2"
+  region = "ap-northeast-2" # 원하는 리전으로 변경
 }
